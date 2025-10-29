@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaHome, FaUser, FaBuilding, FaClipboardList, FaBars, FaTimes } from 'react-icons/fa';
+import { FaHome, FaChartBar, FaRobot, FaBars, FaTimes } from 'react-icons/fa';
 
-const Sidebar = ({ isDarkMode }) => {
+const TeacherSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -24,48 +24,32 @@ const Sidebar = ({ isDarkMode }) => {
         isOpen ? 'translate-x-0' : '-translate-x-full'
       } md:translate-x-0 md:static md:w-64 z-40`}>
         <h1 className='text-xl font-bold mb-6 text-gray-800 dark:text-white'>
-          Student Dashboard
+          Teacher Dashboard
         </h1>
         <nav className='space-y-4'>
           <Link
-            to='/student/dashboard'
+            to='/teacher/dashboard'
             className='flex items-center p-3 rounded-md hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors text-gray-800 dark:text-white'
             onClick={() => setIsOpen(false)}
           >
             <FaHome className='mr-3' />
-            Dashboard Home
+            Dashboard Overview
           </Link>
           <Link
-            to='/feedback/hostel'
+            to='/teacher/analytics'
             className='flex items-center p-3 rounded-md hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors text-gray-800 dark:text-white'
             onClick={() => setIsOpen(false)}
           >
-            <FaHome className='mr-3' />
-            Hostel Feedback
+            <FaChartBar className='mr-3' />
+            Feedback Analytics
           </Link>
           <Link
-            to='/feedback/teacher'
+            to='/teacher/ai-insights'
             className='flex items-center p-3 rounded-md hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors text-gray-800 dark:text-white'
             onClick={() => setIsOpen(false)}
           >
-            <FaUser className='mr-3' />
-            Teacher Feedback
-          </Link>
-          <Link
-            to='/feedback/campus'
-            className='flex items-center p-3 rounded-md hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors text-gray-800 dark:text-white'
-            onClick={() => setIsOpen(false)}
-          >
-            <FaBuilding className='mr-3' />
-            Campus Feedback
-          </Link>
-          <Link
-            to='/feedback/history'
-            className='flex items-center p-3 rounded-md hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors text-gray-800 dark:text-white'
-            onClick={() => setIsOpen(false)}
-          >
-            <FaClipboardList className='mr-3' />
-            Feedback History
+            <FaRobot className='mr-3' />
+            AI Insights
           </Link>
         </nav>
       </div>
@@ -81,4 +65,4 @@ const Sidebar = ({ isDarkMode }) => {
   );
 };
 
-export default Sidebar;
+export default TeacherSidebar;

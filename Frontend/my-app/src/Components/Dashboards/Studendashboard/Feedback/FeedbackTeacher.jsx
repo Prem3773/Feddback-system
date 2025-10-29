@@ -1,31 +1,90 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaUser } from 'react-icons/fa';
 
 const FeedbackTeacher = () => {
   const [feedback, setFeedback] = useState({
+    teacherId: '',
     teachingQuality: '',
     clarity: '',
     support: '',
     engagement: '',
     additionalComments: ''
   });
+  const [teachers, setTeachers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTeachers = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/auth/teachers');
+        if (response.ok) {
+          const data = await response.json();
+          setTeachers(data);
+        } else {
+          console.error('Failed to fetch teachers');
+        }
+      } catch (error) {
+        console.error('Error fetching teachers:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTeachers();
+  }, []);
 
   const handleChange = (e) => {
     setFeedback({ ...feedback, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Teacher Feedback Submitted:', feedback);
-    alert('Feedback submitted successfully! It will be analyzed by AI for improvements.');
-    // Reset form
-    setFeedback({
-      teachingQuality: '',
-      clarity: '',
-      support: '',
-      engagement: '',
-      additionalComments: ''
-    });
+
+    if (!feedback.teacherId) {
+      alert('Please select a teacher.');
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:3001/api/feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          category: 'teacher',
+          teacherId: feedback.teacherId,
+          responses: {
+            teachingQuality: feedback.teachingQuality,
+            clarity: feedback.clarity,
+            support: feedback.support,
+            engagement: feedback.engagement,
+            additionalComments: feedback.additionalComments
+          }
+        })
+      });
+
+      if (response.ok) {
+        alert('Feedback submitted successfully! It will be analyzed by AI for improvements.');
+        // Reset form
+        setFeedback({
+          teacherId: '',
+          teachingQuality: '',
+          clarity: '',
+          support: '',
+          engagement: '',
+          additionalComments: ''
+        });
+      } else {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+      alert('An error occurred while submitting feedback.');
+    }
   };
 
   return (
@@ -39,6 +98,25 @@ const FeedbackTeacher = () => {
           Provide detailed feedback on your teachers. Your input helps enhance teaching quality and will be analyzed by AI.
         </p>
         <form onSubmit={handleSubmit} className='space-y-6'>
+          <div>
+            <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
+              Select Teacher
+            </label>
+            <select
+              name='teacherId'
+              value={feedback.teacherId}
+              onChange={handleChange}
+              className='w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-600 dark:text-white'
+              required
+            >
+              <option value=''>Select a teacher</option>
+              {teachers.map((teacher) => (
+                <option key={teacher._id} value={teacher._id}>
+                  {teacher.username} - {teacher.subject || 'No Subject'}
+                </option>
+              ))}
+            </select>
+          </div>
           <div>
             <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
               Teaching Quality

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 
 // Simple register component - same structure as login
-const Register = ({ onRegister, isDarkMode }) => {
+const Register = ({ onRegister }) => {
   // State for form fields
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Student');
+  const [subject, setSubject] = useState('');
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Basic validation
@@ -18,44 +19,54 @@ const Register = ({ onRegister, isDarkMode }) => {
       return;
     }
 
-    // Call parent function with user data
-    if (onRegister) {
-      onRegister(username, email, role);
+    // Additional validation for teachers
+    if (role.toLowerCase() === 'teacher' && !subject) {
+      alert('Please fill in the subject field for teachers');
+      return;
     }
 
-    console.log('Registration successful:', { username, email, role });
-    alert(`Registration successful: ${username} as ${role}`);
+    try {
+      const response = await fetch('http://localhost:3001/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, email, password, role: role.toLowerCase(), subject }),
+      });
 
-    // Redirect to login page
-    window.location.href = '/login';
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('Registration successful! Please login.');
+        // Redirect to login page
+        window.location.href = '/login';
+      } else {
+        alert(data.message || 'Registration failed');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      alert('Network error. Please try again.');
+    }
   };
 
   return (
-    <div className="max-w-md mx-auto">
-      <div className={`bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8`}>
-        <h2 className={`text-2xl font-bold text-center mb-6 ${
-          isDarkMode ? 'text-white' : 'text-white'
-        }`}>
+    <div className="max-w-md mx-auto py-20 bg-gray-50 dark:bg-gray-900">
+      <div className="bg-white shadow-lg rounded-lg p-8 border">
+        <h2 className="text-2xl font-bold text-center mb-6 text-black">
           Create Account
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Username Input */}
           <div>
-            <label className={`block text-sm font-medium mb-1 ${
-              isDarkMode ? 'text-gray-300' : 'text-white'
-            }`}>
+            <label className="block text-sm font-medium mb-1 text-gray-700">
               Username
             </label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className={`w-full p-3 border rounded-md ${
-                isDarkMode
-                  ? 'bg-gray-700 border-gray-600 text-white'
-                  : 'bg-white border-gray-300 text-gray-900'
-              }`}
+              className="w-full p-3 border rounded-md transition-colors focus:ring-blue-500 focus:border-blue-500 bg-white border-gray-300 text-gray-900 placeholder-gray-500"
               placeholder="Enter username"
               required
             />
@@ -63,20 +74,14 @@ const Register = ({ onRegister, isDarkMode }) => {
 
           {/* Email Input */}
           <div>
-            <label className={`block text-sm font-medium mb-1 ${
-              isDarkMode ? 'text-gray-300' : 'text-white'
-            }`}>
+            <label className="block text-sm font-medium mb-1 text-gray-700">
               Email
             </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={`w-full p-3 border rounded-md ${
-                isDarkMode
-                  ? 'bg-gray-700 border-gray-600 text-white'
-                  : 'bg-white border-gray-300 text-gray-900'
-              }`}
+              className="w-full p-3 border rounded-md transition-colors focus:ring-blue-500 focus:border-blue-500 bg-white border-gray-300 text-gray-900 placeholder-gray-500"
               placeholder="Enter email"
               required
             />
@@ -84,20 +89,14 @@ const Register = ({ onRegister, isDarkMode }) => {
 
           {/* Password Input */}
           <div>
-            <label className={`block text-sm font-medium mb-1 ${
-              isDarkMode ? 'text-white' : 'text-white'
-            }`}>
+            <label className="block text-sm font-medium mb-1 text-gray-700">
               Password
             </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className={`w-full p-3 border rounded-md ${
-                isDarkMode
-                  ? 'bg-gray-700 border-gray-600 text-white'
-                  : 'bg-white border-gray-300 text-gray-900'
-              }`}
+              className="w-full p-3 border rounded-md transition-colors focus:ring-blue-500 focus:border-blue-500 bg-white border-gray-300 text-gray-900 placeholder-gray-500"
               placeholder="Enter password"
               required
             />
@@ -105,40 +104,48 @@ const Register = ({ onRegister, isDarkMode }) => {
 
           {/* Role Selection */}
           <div>
-            <label className={`block text-sm font-medium mb-1 ${
-              isDarkMode ? 'text-gray-300' : 'text-whiteelcome'
-            }`}>
+            <label className="block text-sm font-medium mb-1 text-gray-700">
               I am a
             </label>
             <select
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className={`w-full p-3 border rounded-md ${
-                isDarkMode
-                  ? 'bg-gray-700 border-gray-600 text-white'
-                  : 'bg-white border-gray-300 text-gray-900'
-              }`}
+              className="w-full p-3 border rounded-md transition-colors focus:ring-blue-500 focus:border-blue-500 bg-white border-gray-300 text-gray-900"
             >
               <option value="Student">Student</option>
               <option value="Teacher">Teacher</option>
-              <option value="Admin">Admin</option>
             </select>
           </div>
+
+          {/* Subject Input - Only for Teachers */}
+          {role === 'Teacher' && (
+            <div>
+              <label className="block text-sm font-medium mb-1 text-gray-700">
+                Subject
+              </label>
+              <input
+                type="text"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                className="w-full p-3 border rounded-md transition-colors focus:ring-blue-500 focus:border-blue-500 bg-white border-gray-300 text-gray-900 placeholder-gray-500"
+                placeholder="Enter subject you teach"
+                required
+              />
+            </div>
+          )}
 
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition-colors"
+            className="w-full bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white py-3 rounded-lg font-semibold shadow-lg transform hover:scale-105 transition-all duration-200"
           >
             Create Account
           </button>
 
           {/* Login Link */}
-          <p className={`text-center text-sm ${
-            isDarkMode ? 'text-gray-400' : 'text-gray-600'
-          }`}>
+          <p className="text-center text-sm text-gray-600">
             Already have an account?{' '}
-            <a href="/login" className="text-blue-600 hover:text-blue-500">
+            <a href="/login" className="text-blue-500 hover:text-blue-600 font-medium transition-colors">
               Sign in here
             </a>
           </p>

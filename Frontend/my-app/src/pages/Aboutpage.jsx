@@ -1,10 +1,8 @@
 import React from 'react'
 
-const Aboutpage = ({ isDarkMode }) => {
+const Aboutpage = () => {
   return (
-    <div className={`min-h-screen py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
-      isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'
-    }`}>
+    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300 bg-gray-50 text-gray-900">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-12">
@@ -29,9 +27,7 @@ const Aboutpage = ({ isDarkMode }) => {
         <div className="mb-12">
           <h2 className="text-3xl font-semibold mb-6">System Overview</h2>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className={`p-6 rounded-lg ${
-              isDarkMode ? 'bg-gray-800' : 'bg-white shadow-lg'
-            }`}>
+            <div className="p-6 rounded-lg bg-white shadow-lg">
               <h3 className="text-xl font-semibold mb-3">Real-Time Feedback Collection</h3>
               <p className="mb-4">
                 Our system enables instant feedback submission through multiple channels including 
@@ -41,9 +37,7 @@ const Aboutpage = ({ isDarkMode }) => {
               </p>
             </div>
             
-            <div className={`p-6 rounded-lg ${
-              isDarkMode ? 'bg-gray-800' : 'bg-white shadow-lg'
-            }`}>
+            <div className="p-6 rounded-lg bg-white shadow-lg">
               <h3 className="text-xl font-semibold mb-3">Advanced Analytics Dashboard</h3>
               <p className="mb-4">
                 Powerful analytics engine processes feedback data to generate actionable insights. 
@@ -52,9 +46,7 @@ const Aboutpage = ({ isDarkMode }) => {
               </p>
             </div>
             
-            <div className={`p-6 rounded-lg ${
-              isDarkMode ? 'bg-gray-800' : 'bg-white shadow-lg'
-            }`}>
+            <div className="p-6 rounded-lg bg-white shadow-lg">
               <h3 className="text-xl font-semibold mb-3">Multi-Stakeholder Platform</h3>
               <p className="mb-4">
                 Designed for students, faculty, staff, and administrators with role-based access 
@@ -63,9 +55,7 @@ const Aboutpage = ({ isDarkMode }) => {
               </p>
             </div>
             
-            <div className={`p-6 rounded-lg ${
-              isDarkMode ? 'bg-gray-800' : 'bg-white shadow-lg'
-            }`}>
+            <div className="p-6 rounded-lg bg-white shadow-lg">
               <h3 className="text-xl font-semibold mb-3">AI-Powered Insights</h3>
               <p className="mb-4">
                 Machine learning algorithms analyze feedback patterns to identify emerging issues, 
@@ -129,9 +119,7 @@ const Aboutpage = ({ isDarkMode }) => {
         {/* Technical Architecture */}
         <div className="mb-12">
           <h2 className="text-3xl font-semibold mb-6">Technical Architecture</h2>
-          <div className={`p-6 rounded-lg ${
-            isDarkMode ? 'bg-gray-800' : 'bg-white shadow-lg'
-          }`}>
+          <div className="p-6 rounded-lg bg-white shadow-lg">
             <h3 className="text-xl font-semibold mb-4">Modern Technology Stack</h3>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
@@ -159,9 +147,7 @@ const Aboutpage = ({ isDarkMode }) => {
         {/* Data Security & Privacy */}
         <div className="mb-12">
           <h2 className="text-3xl font-semibold mb-6">Data Security & Privacy</h2>
-          <div className={`p-6 rounded-lg ${
-            isDarkMode ? 'bg-gray-800' : 'bg-white shadow-lg'
-          }`}>
+          <div className="p-6 rounded-lg bg-white shadow-lg">
             <p className="mb-4">
               EduPulse prioritizes data security and user privacy with enterprise-grade encryption, 
               GDPR compliance, and regular security audits. All feedback data is encrypted at rest 
@@ -182,25 +168,19 @@ const Aboutpage = ({ isDarkMode }) => {
         <div className="mb-12">
           <h2 className="text-3xl font-semibold mb-6">Future Roadmap</h2>
           <div className="space-y-4">
-            <div className={`p-4 rounded-lg ${
-              isDarkMode ? 'bg-gray-800' : 'bg-white shadow-lg'
-            }`}>
+            <div className="p-4 rounded-lg bg-white shadow-lg">
               <h3 className="text-xl font-semibold mb-2">Phase 2: Advanced Analytics</h3>
               <p>Integration of natural language processing for deeper sentiment analysis and 
               predictive modeling for proactive issue identification.</p>
             </div>
             
-            <div className={`p-4 rounded-lg ${
-              isDarkMode ? 'bg-gray-800' : 'bg-white shadow-lg'
-            }`}>
+            <div className="p-4 rounded-lg bg-white shadow-lg">
               <h3 className="text-xl font-semibold mb-2">Phase 3: Mobile App</h3>
               <p>Native mobile applications for iOS and Android with offline capabilities and 
               push notifications for enhanced user engagement.</p>
             </div>
             
-            <div className={`p-4 rounded-lg ${
-              isDarkMode ? 'bg-gray-800' : 'bg-white shadow-lg'
-            }`}>
+            <div className="p-4 rounded-lg bg-white shadow-lg">
               <h3 className="text-xl font-semibold mb-2">Phase 4: Integration Hub</h3>
               <p>Seamless integration with existing Learning Management Systems (LMS), 
               Student Information Systems (SIS), and other educational technology platforms.</p>

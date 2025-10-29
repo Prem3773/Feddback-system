@@ -39,7 +39,7 @@ const Carousel = () => {
               }`}
             >
               <h3 className="text-3xl md:text-4xl font-bold">{slide.title}</h3>
-              <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">{slide.description}</p>
+              <p className="mt-4 text-lg text-gray-600">{slide.description}</p>
             </div>
           ))}
 
@@ -51,7 +51,7 @@ const Carousel = () => {
                 className={`w-3 h-3 rounded-full transition-colors duration-300 ${
                   currentSlide === index
                     ? 'bg-blue-500'
-                    : 'bg-gray-300 dark:bg-gray-600 hover:bg-blue-300'
+                    : 'bg-gray-300 hover:bg-blue-300'
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />

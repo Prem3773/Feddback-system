@@ -1,11 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
-// User roles constant
+
+// User roles constant (not used in form, but kept for reference)
 const UserRole = {
   Student: 'Student',
-  Teacher: 'Teacher',
-  Admin: 'Admin'
+  Teacher: 'Teacher'
 };
 
 // Simple Card component (if not available elsewhere)
@@ -30,74 +30,97 @@ const Button = ({ children, type, className, variant, ...props }) => (
   </button>
 );
 
-const Login = ({ onLogin, isDarkMode, toggleDarkMode }) => {
+const Login = ({ onLogin }) => {
   const loginRef = useRef(null);
 
   const [username, setUsername] = useState('');
-  const [role, setRole] = useState(UserRole.Student);
+  const [password, setPassword] = useState('');
 
-  const handleLoginFormSubmit = (e) => {
+  const handleLoginFormSubmit = async (e) => {
     e.preventDefault();
-    if (!username) {
-      alert('Please enter a username.');
+    if (!username || !password) {
+      alert('Please enter username and password.');
       return;
     }
 
-    if (onLogin) {
-      onLogin(username, role);
+    try {
+      const response = await fetch('http://localhost:3001/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Store token in localStorage
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('isLoggedIn', 'true');
+
+        if (onLogin) {
+          onLogin(data.user.username, data.user.role);
+        }
+      } else {
+        alert(data.message || 'Login failed');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('Network error. Please try again.');
     }
-
-    // Instead of using navigate, we'll use window.location or rely on parent component
-    // Since there's no Router context, we'll handle navigation differently
-    console.log('Login successful:', { username, role });
-    alert(`Login successful: ${username} as ${role}`);
-
-    // Option 1: Use window.location (if you want to redirect)
-    // window.location.href = '/dashboard';
-
-    // Option 2: Let parent component handle navigation
-    // Parent component should handle the navigation after onLogin
   };
 
 
   return (
     <div className=' w-max mx-auto'>
-        <section ref={loginRef} className="py-20 bg-bkg-light dark:bg-bkg-dark">
+        <section ref={loginRef} className="py-20 bg-gray-50 dark:bg-gray-900">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="w-full max-w-md mx-auto">
-              <Card>
+              <div className="bg-white shadow-lg rounded-lg p-6 border">
                 <div className="text-center">
-                  <h2 className="text-3xl md:text-4xl font-bold    text-white    ">Access Your Dashboard</h2>
-                  <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">Login to continue to EduPulse.</p>
+                  <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Access Your Dashboard</h2>
+                  <p className="mt-2 text-lg text-gray-600">Login to continue to EduPulse.</p>
                 </div>
                 <form onSubmit={handleLoginFormSubmit} className="mt-8 space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-white dark:text-white">Username</label>
-                    <input type="text" value={username} onChange={e => setUsername(e.target.value)} required className="mt-1 block w-full p-3  dark:bg-black  text-white border-red-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500" />
+                    <label className="block text-sm font-medium text-gray-700">Username</label>
+                    <input
+                      type="text"
+                      value={username}
+                      onChange={e => setUsername(e.target.value)}
+                      required
+                      className="mt-1 block w-full p-3 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white border-gray-300 text-gray-900 placeholder-gray-500"
+                      placeholder="Enter your username"
+                    />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Role</label>
-                    <select value={role} onChange={e => setRole(e.target.value)} className="mt-1 block w-full p-3 bg-white dark:bg-black text-white dark:border-gray-600 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500">
-                      <option value={UserRole.Student}>Student</option>
-                      <option value={UserRole.Teacher}>Teacher</option>
-                      <option value={UserRole.Admin}>Admin</option>
-                    </select>
+                    <label className="block text-sm font-medium text-gray-700">Password</label>
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={e => setPassword(e.target.value)}
+                      required
+                      className="mt-1 block w-full p-3 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white border-gray-300 text-gray-900 placeholder-gray-500"
+                      placeholder="Enter your password"
+                    />
                   </div>
-                  <p className="text-xs text-center text-gray-500 dark:text-gray-400">Hint: Use 'alice' (Student), 'carol' (Teacher), or 'admin' (Admin) for the username to log in.</p>
+                  <p className="text-xs text-center text-gray-500">Hint: Use 'alice' (Student), 'carol' (Teacher), or 'admin' (Admin) for the username to log in.</p>
                   <div>
-                    <Button type="submit" className="w-full py-3 text-lg" variant="primary">Login</Button>
+                    <Button type="submit" className="w-full py-3 text-lg bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:-purple-700 text-white font-semibold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-200" variant="primary">Login</Button>
                   </div>
-                  <div className='flex items-center ml-4 text-xl text-white'>
-                    <h1 className='ml-4'>Not Have an account </h1>
+                  <div className="flex items-center justify-center text-sm text-gray-600">
+                    <span>Don't have an account?</span>
                     <Link
-              to="/register"
-              className="text-blue-600 hover:text-blue-500 ml-5"
-              >
-              Sign up 
-            </Link>
+                      to="/register"
+                      className="ml-2 text-blue-500 hover:text-blue-600 font-medium transition-colors"
+                    >
+                      Sign up
+                    </Link>
                   </div>
                 </form>
-              </Card>
+              </div>
             </div>
           </div>
         </section>
