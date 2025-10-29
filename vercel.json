@@ -1,28 +1,5 @@
-{
-    "version": 2,
-    "builds": [
-        {
-            "src": "Frontend/my-app/package.json",
-            "use": "@vercel/static-build",
-            "config": {
-                "distDir": "build"
-            }
-        },
-        {
-            "src": "Backend/server.js",
-            "use": "@vercel/node"
+  {
+          "rewrites": [
+            { "source": "/(.*)", "destination": "/index.html" }
+          ]
         }
-    ],
-    "routes": [
-        {
-            "src": "/api/(.*)",
-            "dest": "/Backend/server.js"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/Frontend/my-app/$1"
-        }
-    ],
-    "env": {
-        "MONGODB_URI": "@mongodb_uri",
-        "JWT_SECRET": "@jwt_secret",
