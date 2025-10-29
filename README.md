@@ -1,6 +1,8 @@
-# Feedback System
+# EduFeed - Smart Feedback System
 
-A comprehensive feedback management system with separate dashboards for students, teachers, and administrators.
+A comprehensive educational feedback management system with separate dashboards for students, teachers, and administrators. Built with modern web technologies for seamless feedback collection and analysis.
+
+![EduFeed Logo](Frontend/my-app/public/assets/logo.svg)
 
 ## Project Structure
 
@@ -40,21 +42,28 @@ feedback-system/
 
 ### 📊 Student Dashboard
 - Interactive dashboard with feedback categories
-- Real-time theme switching (Light/Dark mode)
+- Enhanced dark/light mode styling for better contrast
 - Responsive sidebar navigation
 - User-specific welcome messages
 
 ### 📝 Feedback Forms
 - **Hostel Feedback**: Cleanliness, facilities, food quality, maintenance
-- **Teacher Feedback**: Teaching quality, clarity, support, engagement
+- **Teacher Feedback**: Teaching quality, clarity, support, engagement (with subject display)
 - **Campus Feedback**: Cleaning, water purity, infrastructure, safety
 - **Feedback History**: Track previous submissions
 
 ### 🎨 User Experience
-- Dark/Light mode toggle
+- Improved dark/light mode without toggle buttons
 - Mobile-responsive design
 - Smooth animations and transitions
 - Intuitive navigation
+- Custom EduFeed logo with graduation cap and feedback elements
+
+### 👨‍💼 Admin Dashboard
+- **User Management**: View all users with roles and subjects
+- **Subject Editing**: Manually assign/edit teacher subjects
+- **Analytics**: Comprehensive feedback statistics
+- **Real-time Updates**: Live data refresh
 
 ## 🚀 Getting Started
 
@@ -119,7 +128,7 @@ If you prefer to run frontend and backend separately:
 
 ### Navigation
 - **Home**: Landing page with system overview
-- **About**: Information about EduPulse
+- **About**: Information about EduFeed
 - **Student Dashboard**: Feedback submission interface
 - **Login/Register**: Authentication pages
 
@@ -246,3 +255,30 @@ This project is licensed under the MIT License.
 ## 🤝 Contributing
 
 1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📈 Recent Updates
+
+### v2.0.0 - EduFeed Rebrand & Admin Enhancement
+- ✅ **Custom Logo**: Added professional EduFeed logo with graduation cap and feedback elements
+- ✅ **Admin Dashboard**: Enhanced with user management and subject editing capabilities
+- ✅ **UI Improvements**: Removed toggle buttons, improved dark/light mode styling
+- ✅ **Backend Integration**: Complete backend with MongoDB, JWT authentication
+- ✅ **GitHub Integration**: All changes committed and pushed to repository
+
+### Key Features Added:
+- **Logo Integration**: Custom SVG logo in navbar
+- **Admin Subject Management**: Teachers can have subjects manually assigned/edited
+- **Enhanced Styling**: Better contrast and accessibility in dark/light modes
+- **Complete Project Structure**: Full-stack application ready for deployment
+
+## 📞 Support
+
+For support, email support@edufeed.com or join our Slack channel.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
